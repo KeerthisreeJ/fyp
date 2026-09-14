@@ -133,6 +133,27 @@ clustering, component count, degree entropy) confirms 28 of 34 give
 identical values on every statistic, because they are the same graph.
 Figure: `9_dataset/size_scaling/size_strata_figure.png`.
 
+## A topologically diverse comparison set (capped, 2026-09-15)
+
+`2_python/code_16_topological_diversity.py`: classifies structures by
+coordination signature (node degree, linker degree) — a heuristic that only
+resolves the four simple, single-node-type nets already discussed on this
+site (pcu 6+2, tbo 4+3, sod 4+2, fcu 12+2), not general net assignment,
+because that needs Systre (Java, not installed here). Built a 6-structure
+set: the four demonstration structures (tbo, pcu, sod, fcu — ground truth)
+plus 2 more pcu-signature hMOF structures (the only net this heuristic could
+match in the locally available 34-hMOF/20-CoRE-MOF pool, capped at 2
+duplicates so the set does not silently pad itself). **rht was not found by
+any method available in this environment — a genuine gap, reported as one.**
+Of the 20 CoRE MOF structures classified, 34 pcu + 1 fcu matched a simple
+signature and 8 had a multi-connectivity signature this heuristic cannot
+resolve at all (real chemical diversity the heuristic cannot see, not
+necessarily rht). This does not contradict the earlier finding that the
+hMOF-77 sample is topologically degenerate; it extends it — the additional
+34 hMOF CIFs fetched for other tasks this session are *also* all pcu-
+signature or unclassifiable, so the degeneracy is not an artefact of which
+48 structures happened to land in the original CSV.
+
 ## Defects already found and fixed (do not reintroduce)
 
 1. **τ(q) fitted with a free intercept** instead of through the origin. This
