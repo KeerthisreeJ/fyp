@@ -54,17 +54,40 @@ Consequences:
   `2_python/code_13_scaling_regimes.py`; quote only the numbers that script
   reports (see the Methods section on the Spectrum page).
 
-## Finite-size behaviour of Δα
+## Finite-size behaviour of Δα (re-run and verified 2026-09-15)
 
-Commit `11bf886` reported, for the coarse-grained quotient estimator
-(`code_12`), that Δα grows logarithmically with supercell diameter on HKUST-1
-and that no |q| cap from 10 down to 2 converges on HKUST-1, MOF-5, ZIF-8 or
-UiO-66. Two details of that write-up were inaccurate and are corrected here:
-HKUST-1 is a **tbo** net, not pcu (MOF-5 is pcu, ZIF-8 sod, UiO-66 fcu), and the
-stated fit Δα ≈ 0.78·ln(D) − 0.28 misses the diameter-16 point by 0.03, not
-"within 0.01". The sweep is re-run from scratch in this project's own scripts;
-**quote only the figures in `9_dataset/size_scaling/` and on the Results
-page**, which come from those runs.
+The sweep was re-run from scratch (`2_python/_run_size_scaling.py`, output in
+`9_dataset/size_scaling/convergence_sweep.json`) on all four demonstration
+nets, on the coarse-grained quotient graph. Fitted slopes of Δα against
+ln(diameter), full q range [−10, 10]:
+
+| Structure | Net | Slope | Intercept | R² | Diameter range | Δα range |
+|---|---|---|---|---|---|---|
+| HKUST-1 | tbo | 0.782 | −0.274 | 0.999 | 8–32 | 1.344–2.430 |
+| MOF-5 | pcu | 0.732 | −0.156 | 1.000 | 12–48 | 1.664–2.681 |
+| ZIF-8 | sod | 0.886 | −0.761 | 1.000 | 12–48 | 1.442–2.665 |
+| UiO-66 | fcu | 0.692 | +0.794 | 0.998 | 8–16 | 2.229–2.707 |
+
+All four fit a straight line in ln(diameter) almost exactly (R² ≥ 0.998); the
+slope is not the same constant on every net (0.69–0.89), so "Δα ≈
+0.78·ln(D) − 0.28" describes HKUST-1 only, not a universal law. Drift between
+the two largest supercells tested, by q cap (all exceed the 5% tolerance at
+every cap, on every net):
+
+| |q| cap | HKUST-1 | MOF-5 | ZIF-8 | UiO-66 |
+|---|---|---|---|---|---|
+| 10 | 0.101 | 0.083 | 0.094 | 0.057 |
+| 8 | 0.102 | 0.083 | 0.095 | 0.057 |
+| 5 | 0.107 | 0.087 | 0.099 | 0.058 |
+| 4 | 0.112 | 0.091 | 0.102 | 0.058 |
+| 3 | 0.121 | 0.099 | 0.109 | 0.061 |
+| 2 | 0.140 | 0.115 | 0.129 | 0.064 |
+
+The figure is `9_dataset/size_scaling/convergence_figure.png`, also on the
+Results page and in `8_textbook/figures/fig13_convergence.png`. **Quote only
+these numbers**, not the earlier "≈0.78·ln(D) − 0.28, within 0.01" claim from
+commit `11bf886`, which was neither universal across nets nor checked against
+a residual.
 
 **Mechanism.** Δα is taken over q ∈ [−10, 10]. At |q| = 10 the partition
 function Σ p_i^q is dominated by a single box. The smallest possible box is one
