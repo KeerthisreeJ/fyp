@@ -102,6 +102,37 @@ Do not recompute either band "at a converged cap": none was found.
 
 ---
 
+## Does the Δα(D) slope vary between frameworks? (2026-09-15, capped, a proposal)
+
+`2_python/code_15_dataset_sweeps.py`: 20 structures per dataset (size-spread
+sample, not random or full), supercell capped at 5000 nodes, 3-point sweep
+(n=2,3,4), one seed. hMOF (n=19 usable): slope mean 0.594, sd 0.134, range
+0.407–0.818. CoRE MOF (n=15 usable): slope mean 0.871, sd 0.333, range
+0.224–1.474. The slope varies ~2.5× more across CoRE MOF than across hMOF —
+consistent with the slope carrying real structural signal (hMOF is dominated
+by one repeated topology; see the sub-bands entry below), but also
+consistent with sampling noise from this small, single-seed, single-pass
+sweep. **Not established either way** — figure and numbers in
+`9_dataset/size_scaling/slope_sweep_figure.png`, raw data in
+`slope_sweep_hmof.json` / `slope_sweep_core.json`. Treat as a proposal for
+what a size-independent descriptor might look like, not as a finding.
+
+## Sub-bands (Narrow/Medium/Wide) are size strata, not chemistry
+
+`2_python/code_14_size_strata.py`, run on the 34 hMOF CIFs available locally
+plus the full 76-row `teammate_cg_run.csv`. Of 14 distinct coarse-grained
+graph signatures across the 76 structures, **13 are entirely one class** —
+class is a deterministic function of graph size wherever the graph actually
+differs between structures. The 14th signature (256 nodes, 384 edges,
+diameter 12 — the 4×4×4 pcu tiling already flagged above) accounts for
+**48 of the 76 structures (63%)** and spans **all three classes** (36
+Medium, 6 Wide, 6 Narrow; Δα 1.171–1.235 within that one identical graph).
+Independently rebuilding the correct coarse-grained graph for a 34-structure
+subset and computing real network statistics (degree mean/CV, assortativity,
+clustering, component count, degree entropy) confirms 28 of 34 give
+identical values on every statistic, because they are the same graph.
+Figure: `9_dataset/size_scaling/size_strata_figure.png`.
+
 ## Defects already found and fixed (do not reintroduce)
 
 1. **τ(q) fitted with a free intercept** instead of through the origin. This
