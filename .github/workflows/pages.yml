@@ -99,7 +99,7 @@ jobs:
   # Run workflow). Does not run on push, so it cannot fail a normal push
   # just because Pages hasn't been switched on in Settings yet.
   deploy:
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     needs: [test-js, test-python, build-check]
     runs-on: ubuntu-latest
     environment:
