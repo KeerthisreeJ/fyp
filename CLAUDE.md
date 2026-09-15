@@ -154,6 +154,48 @@ hMOF-77 sample is topologically degenerate; it extends it — the additional
 signature or unclassifiable, so the degeneracy is not an artefact of which
 48 structures happened to land in the original CSV.
 
+## The full, correct band on both complete datasets (2026-09-15)
+
+All 77 hMOF and all 61 CoRE MOF CIFs were fetched (previously only 34 and 20
+were available locally) and run through `2_python/code_17_full_correct_band.py`,
+which uses the correct graph: coarse-grained quotient graph of the unit cell,
+replicated to 48 Å per axis, no atoms built at any point. 72/77 hMOF and
+55/61 CoRE MOF produced a usable spectrum (the rest fell below the
+diameter-8 scaling gate at this sizing rule). Results:
+`9_dataset/size_scaling/full_band_hmof_cg.json`, `full_band_core_cg.json`.
+
+**Class still tracks graph size, even on the correct graph, on the full
+datasets.** r(Δα, coarse-grained node count) = +0.70 on hMOF and +0.70 on
+CoRE MOF, independently. `code_18_subband_explain.py` sorts each dataset
+into Narrow/Medium/Wide terciles and reports chemistry, graph features,
+degree stats, edges, clustering, assortativity, heterogeneity and component
+count per class (`subband_explain_hmof.json`, `subband_explain_core.json`):
+
+- hMOF Narrow and Medium (65 of 72) are the same metal (Zn), same net (pcu),
+  same block count (4), same node count (~260), same assortativity to 3
+  decimals — indistinguishable by anything except Δα itself. The 7-structure
+  Wide class differs on graph size, pore geometry (LCD 3.6 vs 9.3 Å) and
+  component count (1.86 vs 1.00, see below) — all confounded with size.
+- CoRE MOF's three classes differ on chemistry (void fraction, LCD), graph
+  size, assortativity and heterogeneity — a real, non-degenerate spread this
+  time — but every one of those differences moves in lock-step with graph
+  size, so none is shown here to be an independent driver.
+- **New finding: several classes on both datasets average >1 connected
+  component** on the replicated quotient graph, which should always be one
+  piece if the decomposition found only periodic-framework blocks. This
+  means the metal-oxo decomposition is retaining disconnected guest/solvent
+  fragments as small "linker" blocks on a meaningful fraction of real CoRE
+  MOF structures (and a few hMOF ones). Not previously documented; worth its
+  own follow-up, not further investigated here.
+- MOFX-DB supplied no MOFid for any CoRE MOF record in this fetch, so metal
+  and RCSR net are unknown for that dataset here — reported as unavailable,
+  not guessed.
+
+This supersedes the earlier 34-structure/20-structure capped analyses (D, E,
+F in the task list) as the authoritative version; those are kept on the
+Results page as a second, smaller, independently-consistent check, not
+replaced.
+
 ## Defects already found and fixed (do not reintroduce)
 
 1. **τ(q) fitted with a free intercept** instead of through the origin. This
